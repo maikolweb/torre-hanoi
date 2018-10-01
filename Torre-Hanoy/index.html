@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Torre de hanoy</title>
+        <link rel="stylesheet" href="css/estilos.css">
+        <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+        <script type="text/javascript" src="js/jquery-ui.min.js"></script>
+    </head>
+    <body>
+        <h1>Torre de Hanoy</h1>
+        <section id="container">
+            <form method="POST" enctype="multipart/form-data" id="formulario" >
+                <input type="text" name="nombre" id="nombre" placeholder="Nombre del participante" />
+                <input type="number" name="discos"  id="discos" placeholder="Numero de discos">
+                <input type="submit" name="enviar" id="enviar" value="Jugar" />
+            </form>
+            <secction class="escenario">
+                <div class="fila" id="fila-uno">
+                    <!-- <div class="box" data-number="1"></div>
+                     <div class="box" data-number="2"></div>
+                     <div class="box" data-number="3"></div>
+                     <div class="box" data-number="4"></div>
+                     <div class="box" data-number="5"></div>
+                     <div class="box" data-number="6"></div>-->
+                </div>
+                <div class="fila" id="fila-dos">
+                </div>
+                <div class="fila" id="fila-tres">
+                </div>
+            </secction>
+        </section>
+        <script>
+            $(document).ready(function () {
+
+                //Metodo para capturar los datos del formulario
+                $('#formulario').submit(function (e) {
+                    e.preventDefault();
+                    $('#enviar').prop('disabled', true);
+                    //optener variables
+                    nombre = $("#nombre").val();
+                    discos = $("#discos").val();
+
+                    //for para agregar divs a la primera fila
+                    if (discos > 0) {
+                        for (var i = 1; i <= discos; i++) {
+
+                            $("#fila-uno").append("<div class='box' data-number='" + i + "'>" + i + "</div>");
+
+                        }
+                    }
+
+
+                    // Metodos para arrastrar los discos
+
+                    $(".box").draggable({revert: "invalid", cursor: 'move'});
+
+
+                    $("#fila-dos").droppable(
+                            {
+                                accept: ".box",
+                                drop: function (ev, ui) {
+                                    var item = $(ui.draggable);
+                                      ui.draggable
+
+                                    $(this).append(item);
+
+
+
+
+                                }
+                            }
+                    );
+                    $("#fila-uno").droppable(
+                            {
+                                accept: ".box",
+                                drop: function (ev, ui) {
+                                    var item = $(ui.draggable);
+                                    $(this).append(item);
+
+                                }
+                            }
+                    );
+                    $("#fila-tres").droppable(
+                            {
+                                accept: ".box",
+                                drop: function (ev, ui) {
+                                    var item = $(ui.draggable);
+                                    $(this).append(item);
+
+
+                                }
+                            }
+                    );
+
+                });
+
+            });
+        </script>
+
+    </body>
+</html>
