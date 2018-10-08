@@ -44,55 +44,71 @@
 
                     //for para agregar divs a la primera fila
                     if (discos > 0) {
-                        for (var i = 1; i <= discos; i++) {
+                        for (var i = discos; i >= 1; i--) {
 
-                            $("#fila-uno").append("<div class='box' data-number='" + i + "'>" + i + "</div>");
+                            $("#fila-uno").prepend("<div class='box' data-number='" + i + "'>" + i + "</div>");
 
                         }
                     }
 
-
                     // Metodos para arrastrar los discos
 
-                    $(".box").draggable({revert: "invalid", cursor: 'move'});
+                     $(".box").draggable({revert: "invalid", cursor: 'move'});
+            
+                    $("#fila-uno").droppable(
+                            {
+                                accept: ".box",
+                                drop: function (ev, ui) {
+                                    var item = $(ui.draggable);
+                                    $(this).prepend(item);
 
 
+                                }
+                            }
+                    );
                     $("#fila-dos").droppable(
                             {
                                 accept: ".box",
                                 drop: function (ev, ui) {
                                     var item = $(ui.draggable);
                                       ui.draggable
-
-                                    $(this).append(item);
-
-
-
+                                    $(this).prepend(item);
 
                                 }
                             }
                     );
-                    $("#fila-uno").droppable(
-                            {
-                                accept: ".box",
-                                drop: function (ev, ui) {
-                                    var item = $(ui.draggable);
-                                    $(this).append(item);
-
-                                }
-                            }
-                    );
+                   
                     $("#fila-tres").droppable(
                             {
                                 accept: ".box",
                                 drop: function (ev, ui) {
+                                    //var item = $(ui.draggable).attr('data-number');
                                     var item = $(ui.draggable);
-                                    $(this).append(item);
-
+                                    var itemPrueba= $(ui.draggable).attr('data-number');
+                                  var  prueba=$("#fila-tres > div:nth-of-type(1)").attr('data-number');
+                                        if(prueba > itemPrueba || typeof(prueba) === "undefined"){
+                                          $(this).prepend(item);
+                                        }else{
+                                            console.log('el item que intenta pasar es mayor que el que esta en el contenido');
+                                        }
+                                       
+                                  console.log(prueba);
+                                   //mayor(item);
+                                    
 
                                 }
                             }
                     );
+
+
+                    function mayor(item){
+                      if(item > 1){
+                        console.log("entro al if: "+item);
+                      }
+                        
+                        
+                    }
+
 
                 });
 
